@@ -1,0 +1,7 @@
+# Environment files
+.env
+myenv/
+envpy11/
+data/
+# IDE
+.vscode/
