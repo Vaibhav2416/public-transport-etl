@@ -128,7 +128,7 @@ cd transport-data-pipeline
 pip install -r requirements.txt
 
 # Configure AWS credentials
-cp .env.example .env
+.env
 # Edit .env with your AWS credentials
 ```
 
@@ -173,19 +173,6 @@ transport-data-pipeline/
 - **Workflow Orchestration**: Apache Airflow for pipeline management
 - **Data Catalog**: AWS Glue for metadata management
 - **Monitoring**: CloudWatch metrics and alerts
-
-## 👨‍💻 Author
-
-**Vaibhav Sultane**  
-*Data Engineer | Curriculum Engineer | Backend Developer*
-
-- Transforming backend development expertise into data engineering solutions
-- Passionate about building scalable data systems and teaching data technologies
-- Experience in full-stack development and data analytics instruction
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
