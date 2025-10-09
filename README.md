@@ -2,114 +2,90 @@
 
 ## 🚀 Problem Statement
 
-### Business Challenge
-Urban transportation companies face significant challenges in optimizing their operations and maximizing revenue. Key pain points include:
+Urban transportation companies struggle with:
+- **Data Silos**: Trip data and weather information stored separately
+- **Manual Processes**: Daily metrics require manual calculation
+- **Limited Insights**: No understanding of how weather impacts operations
+- **Scalability Issues**: Growing data volumes overwhelm traditional tools
 
-- **Lack of Integrated Data**: Transportation data (trips, fares) and external factors (weather) are stored in separate silos
-- **Manual Analysis Processes**: Daily performance metrics require manual calculation and consolidation
-- **Inefficient Decision Making**: No centralized system to analyze how weather conditions impact transportation patterns and revenue
-- **Scalability Issues**: Growing data volumes make traditional analysis methods slow and unreliable
+## 🎯 Solution
 
-### Data Challenges
-- **Multi-source Data Integration**: Combining taxi trip data with weather information from different sources and formats
-- **Data Quality Issues**: Inconsistent date formats, missing values, and invalid records
-- **Performance Optimization**: Processing large datasets efficiently for daily business intelligence
-- **Real-time Insights**: Need for timely analytics to support operational decisions
+**Automated ETL Pipeline** that processes transportation and weather data to generate daily business intelligence.
 
-## 💡 Solution
-
-### End-to-End Data Pipeline
-Built a scalable ETL pipeline that transforms raw transportation and weather data into actionable business intelligence.
-
-### Architecture Overview
+### Architecture
 ```
-Raw Data Sources → AWS S3 → PySpark ETL → Processed Data → AWS Athena → Business Insights
+CSV Files → AWS S3 → PySpark ETL → Parquet Files → Athena SQL → Business Insights
 ```
-
-### Key Features
-- **Automated Data Processing**: Daily ETL pipeline with error handling and monitoring
-- **Unified Data Model**: Integrated view of transportation operations and environmental factors
-- **Scalable Infrastructure**: Cloud-native architecture using AWS S3 and PySpark
-- **Business Intelligence**: Pre-aggregated metrics for daily performance analysis
-- **Cost Optimization**: Partitioned storage and columnar format for efficient querying
-
-## 📊 Data Sources
-
-### 1. Transportation Data
-- **Source**: NYC Taxi & Limousine Commission trip records
-- **Records**: March 2016 trip data
-- **Key Fields**: Pickup/dropoff timestamps, trip distance, fare amounts, payment details
-
-### 2. Weather Data
-- **Source**: Historical weather data for New York
-- **Metrics**: Precipitation, snowfall, snow depth, temperature
-- **Frequency**: Daily weather conditions
-
-## 🔧 Technical Implementation
-
-### ETL Pipeline Architecture
-
-#### 1. Extraction Layer
-```python
-def extract_data():
-    # Downloads raw data from S3 to local storage
-    # Supports multiple file formats and sources
-```
-
-#### 2. Transformation Layer
-```python
-def transform_data():
-    # Data cleaning and standardization
-    # Feature engineering (trip duration, bus simulation)
-    # Data validation and quality checks
-    # Business logic implementation
-```
-
-#### 3. Loading Layer
-```python
-def load_data():
-    # Optimized storage with partitioning
-    # Columnar format (Parquet) for performance
-    # Automated data verification
-```
-
-### Key Transformations
-- **Date/Time Standardization**: Unified timestamp formats across datasets
-- **Business Metrics**: Calculated trip duration, revenue metrics, performance indicators
-- **Data Enrichment**: Added synthetic bus data for transportation analysis
-- **Quality Assurance**: Filtered invalid records and handled missing values
 
 ## 🛠️ Technology Stack
 
-### Core Technologies
-- **PySpark**: Distributed data processing
-- **AWS S3**: Scalable cloud storage
-- **Python 3.x**: Data processing and orchestration
-- **boto3**: AWS SDK for Python
+- **Processing**: PySpark, Python
+- **Storage**: AWS S3 (Parquet format)
+- **Infrastructure**: AWS IAM, boto3
+- **Analytics**: AWS Athena
 
-### Data Formats
-- **Input**: CSV files
-- **Output**: Parquet (columnar storage)
-- **Metadata**: Partitioned by date for optimal query performance
+## 📁 Project Structure
 
-### AWS Services
-- **S3**: Data lake storage (raw and processed)
-- **Athena**: Serverless SQL querying
-- **IAM**: Secure credential management
+```
+public-transport-etl/
+├── 📁 src/                          # Source code
+│   ├── 📁 config/                   # Configuration files
+│   │   ├── aws_config.py           # AWS configuration
+│   │   └── spark_config.py         # Spark configuration
+│   ├── data_extract.py             # Data extraction logic
+│   ├── data_transform.py           # Data transformation logic
+│   ├── data_load.py                # Data loading logic
+│   └── etl_pipeline.py             # Main ETL orchestrator
+├── 📁 data/                         # Local data storage (gitignored)
+├── run_pipeline.py                 # Pipeline entry point
+├── requirements.txt                # Python dependencies
+├── .env                           # Environment variables
+├── .gitignore                     # Git ignore rules
+└── README.md                      # Project documentation
+```
 
-## 📈 Business Outcomes
+## 🔧 ETL Pipeline Architecture
 
-### Delivered Metrics
-- **Daily Performance**: Total trips, average fares, revenue analysis
-- **Operational Efficiency**: Trip duration patterns, capacity utilization
-- **Weather Impact**: Correlation between precipitation and transportation demand
-- **Revenue Optimization**: Fare analysis and tip patterns
+### 1. Extraction Layer (`data_extract.py`)
+```python
+# Downloads raw data from S3 to local storage
+- Downloads weather, zone, and transport data from AWS S3
+- Handles multiple file formats and sources
+- Secure credential management
+```
 
-### Value Proposition
-- **50% Faster Insights**: Automated pipeline vs manual processing
-- **Scalable Architecture**: Handles growing data volumes seamlessly
-- **Actionable Intelligence**: Daily business metrics for decision makers
-- **Cost Effective**: Cloud-optimized storage and processing
+### 2. Transformation Layer (`data_transform.py`)
+```python
+# Data cleaning and business logic
+- Standardizes date/time formats across datasets
+- Feature engineering (trip duration, bus simulation)
+- Data validation and quality checks
+- Joins transportation and weather data
+- Creates daily business summaries
+```
+
+### 3. Loading Layer (`data_load.py`)
+```python
+# Writes processed data to optimized storage
+- Partitioned Parquet format for performance
+- Automated data verification
+- Error handling and monitoring
+```
+
+## 📊 Data Sources
+
+| Source | Type | Key Metrics |
+|--------|------|-------------|
+| NYC Taxi Data | Transportation | Trips, fares, duration, revenue |
+| Weather Data | Environmental | Precipitation, snowfall, temperature |
+
+## 💡 Key Features
+
+- **Modular Design**: Separate extraction, transformation, and loading components
+- **Cloud-Native**: AWS S3 integration with secure credential management
+- **Production Ready**: Error handling, logging, and data verification
+- **Optimized Storage**: Partitioned Parquet format for efficient querying
+- **Scalable Architecture**: PySpark distributed processing
 
 ## 🚀 Getting Started
 
@@ -119,61 +95,91 @@ def load_data():
 - AWS Account with S3 access
 
 ### Installation
+
+1. **Clone the repository**
 ```bash
-# Clone repository
 git clone <repository-url>
-cd transport-data-pipeline
+cd public-transport-etl
+```
 
-# Install dependencies
+2. **Install dependencies**
+```bash
 pip install -r requirements.txt
+```
 
-# Configure AWS credentials
-.env
+3. **Configure environment**
+```bash
+cp .env.example .env
 # Edit .env with your AWS credentials
 ```
 
-### Running the Pipeline
+4. **Run the pipeline**
 ```bash
-python transport_etl_pipeline.py
+python run_pipeline.py
 ```
 
-### Querying Results
-```sql
--- Example Athena queries
-SELECT * FROM transport_analysis.daily_summary 
-WHERE pickup_date = '2016-03-01';
+## 📈 Sample Analytics
 
+### SQL Queries (AWS Athena)
+```sql
+-- Daily revenue analysis
 SELECT pickup_date, SUM(total_revenue) as daily_revenue
 FROM transport_analysis.daily_summary 
-GROUP BY pickup_date;
+GROUP BY pickup_date
+ORDER BY daily_revenue DESC;
+
+-- Weather impact on transportation
+SELECT avg_precipitation, AVG(total_trips) as avg_trips
+FROM transport_analysis.daily_summary 
+GROUP BY avg_precipitation;
+
+-- Bus performance ranking
+SELECT bus_number, SUM(total_trips) as total_trips
+FROM transport_analysis.daily_summary 
+GROUP BY bus_number
+ORDER BY total_trips DESC;
 ```
 
-## 📁 Project Structure
-```
-transport-data-pipeline/
-├── transport_etl_pipeline.py  # Main ETL pipeline
-├── spark_s3_config.py         # Spark and AWS configuration
-├── config.py                  # Secure credential management
-├── requirements.txt           # Python dependencies
-├── .env.example              # Environment template
-└── README.md                 # This file
-```
+## 🎯 Business Outcomes
+
+### Delivered Metrics
+- ✅ Daily trip volume and revenue analysis
+- ✅ Average fares and tip patterns
+- ✅ Weather impact on transportation demand
+- ✅ Operational efficiency metrics
+
+### Value Delivered
+- **50% faster insights** vs manual processing
+- **Scalable architecture** for growing data volumes
+- **Actionable business intelligence** for decision makers
+- **Cost-optimized** cloud storage and processing
 
 ## 🔮 Future Enhancements
 
-### Planned Features
-- **Real-time Streaming**: Kafka integration for live data processing
-- **Advanced Analytics**: Machine learning for demand forecasting
-- **Dashboard Integration**: Tableau/Power BI connectivity
-- **Data Quality Framework**: Automated data validation and alerting
-- **CI/CD Pipeline**: Automated testing and deployment
+- Real-time streaming with Kafka
+- Machine learning for demand forecasting
+- Dashboard integration (Tableau/Power BI)
+- Automated data quality framework
+- CI/CD pipeline for deployment
 
-### Scalability Improvements
-- **Cluster Deployment**: Spark on EMR or Databricks
-- **Workflow Orchestration**: Apache Airflow for pipeline management
-- **Data Catalog**: AWS Glue for metadata management
-- **Monitoring**: CloudWatch metrics and alerts
+## 👨‍💻 Development
+
+### Running Tests
+```bash
+# Add your test commands here
+python -m pytest tests/
+```
+
+### Code Structure
+- **src/**: Main source code with modular ETL components
+- **config/**: Configuration management for AWS and Spark
+- **data/**: Local data storage (excluded from git)
 
 ---
 
-**🚀 Ready to transform your transportation data into actionable insights!**
+**Built with ❤️ using PySpark and AWS**  
+*Transforming raw data into actionable business intelligence*
+
+## 📄 License
+
+This project is licensed under the MIT License.
